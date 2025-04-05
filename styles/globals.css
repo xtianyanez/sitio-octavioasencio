@@ -83,13 +83,6 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
-html {
-  scroll-behavior: smooth;
-}
-section {
-  scroll-margin-top: 100px; /* Ajusta según el alto de tu navbar */
-}
-
 
 @layer base {
   * {

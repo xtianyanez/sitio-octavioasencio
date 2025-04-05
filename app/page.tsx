@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -55,6 +57,18 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Función para manejar el scroll suave
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault()
+    const element = document.getElementById(id)
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop - 80, // Ajuste para el header fijo
+        behavior: "smooth",
+      })
+    }
+  }
+
   const parallaxStyle = {
     transform: `translateY(${scrollY * 0.3}px)`,
   }
@@ -75,18 +89,34 @@ export default function Home() {
             </div>
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="#propuestas" className="text-sm font-medium hover:text-blue-600 transition-colors">
+            <a
+              href="#propuestas"
+              onClick={(e) => handleSmoothScroll(e, "propuestas")}
+              className="text-sm font-medium hover:text-blue-600 transition-colors"
+            >
               PROPUESTAS
-            </Link>
-            <Link href="#sobre-mi" className="text-sm font-medium hover:text-blue-600 transition-colors">
+            </a>
+            <a
+              href="#sobre-mi"
+              onClick={(e) => handleSmoothScroll(e, "sobre-mi")}
+              className="text-sm font-medium hover:text-blue-600 transition-colors"
+            >
               SOBRE MÍ
-            </Link>
-            <Link href="#eventos" className="text-sm font-medium hover:text-blue-600 transition-colors">
+            </a>
+            <a
+              href="#eventos"
+              onClick={(e) => handleSmoothScroll(e, "eventos")}
+              className="text-sm font-medium hover:text-blue-600 transition-colors"
+            >
               EVENTOS
-            </Link>
-            <Link href="#contacto" className="text-sm font-medium hover:text-blue-600 transition-colors">
+            </a>
+            <a
+              href="#contacto"
+              onClick={(e) => handleSmoothScroll(e, "contacto")}
+              className="text-sm font-medium hover:text-blue-600 transition-colors"
+            >
               CONTACTO
-            </Link>
+            </a>
           </nav>
           <Button className="bg-blue-600 hover:bg-blue-700 text-white">Únete</Button>
         </div>
@@ -101,57 +131,74 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/4 w-4 h-4 rounded-full bg-white/50 blur-sm"></div>
           <div className="absolute top-1/3 right-1/3 w-6 h-6 rounded-full bg-white/50 blur-sm"></div>
 
-          <div className="container relative z-10 flex flex-col-reverse md:flex-row items-center py-16 md:py-28">
-            <div className="md:w-1/2 space-y-6 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 bg-blue-700/50 px-3 py-1 rounded-full text-sm">
-                <span>¿QUIÉN SOY?</span>
-                <ArrowRight className="h-3 w-3" />
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                Conoce a tu candidato
-                <div className="text-blue-300">Octavio Asencio</div>
-              </h1>
-              <p className="text-xl md:text-2xl text-blue-100 max-w-md">
-                Comprometido con el futuro de México y con la visión de un país más justo y próspero.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-6 group">
-                  Conoce mis propuestas
-                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </Button>
-                <div className="flex gap-4">
-                  <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
-                    <Facebook className="h-5 w-5" />
-                  </Link>
-                  <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
-                    <Twitter className="h-5 w-5" />
-                  </Link>
-                  <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
-                    <Instagram className="h-5 w-5" />
-                  </Link>
+          <div className="container relative z-10">
+            {/* Cambiamos el orden en móvil para que el texto aparezca primero */}
+            <div className="flex flex-col md:flex-row items-center py-12 md:py-20">
+              <div className="md:w-1/2 space-y-5 text-center md:text-left order-2 md:order-1 mt-8 md:mt-0">
+                <div className="inline-flex items-center gap-2 bg-blue-700/50 px-3 py-1 rounded-full text-sm">
+                  <span>¿QUIÉN SOY?</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                  Conoce a tu candidato
+                  <div className="text-blue-300">Octavio Asencio</div>
+                </h1>
+                <p className="text-xl md:text-2xl text-blue-100 max-w-md">
+                  Comprometido con el futuro de México y con la visión de un país más justo y próspero.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start pb-4">
+                  <Button
+                    className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-6 group"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const element = document.getElementById("propuestas")
+                      if (element) {
+                        window.scrollTo({
+                          top: element.offsetTop - 80,
+                          behavior: "smooth",
+                        })
+                      }
+                    }}
+                  >
+                    Conoce mis propuestas
+                    <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </Button>
+                  <div className="flex gap-4">
+                    <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
+                      <Facebook className="h-5 w-5" />
+                    </Link>
+                    <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
+                      <Twitter className="h-5 w-5" />
+                    </Link>
+                    <Link href="#" className="rounded-full bg-blue-700/50 p-2 hover:bg-blue-700 transition-colors">
+                      <Instagram className="h-5 w-5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="md:w-1/2 relative mb-8 md:mb-0">
-              <div className={`relative w-64 h-64 md:w-80 md:h-80 mx-auto ${floatingAnimation}`}>
-                <div className="absolute inset-0 rounded-full bg-white"></div>
-                <Image
-                  src="/placeholder.svg?height=400&width=400"
-                  alt="Octavio Asencio"
-                  width={400}
-                  height={400}
-                  className="relative z-10 object-cover"
-                  priority
-                />
-                <div
-                  className={`absolute -top-4 -right-4 bg-blue-500 rounded-lg p-3 shadow-lg z-20 ${floatingSlowAnimation}`}
-                >
-                  <MessageSquare className="h-6 w-6 text-white" />
-                </div>
-                <div
-                  className={`absolute -bottom-6 -left-6 bg-white rounded-lg p-3 shadow-lg z-20 ${floatingFastAnimation}`}
-                >
-                  <div className="text-blue-600 font-bold">2023-2029</div>
+              <div className="md:w-1/2 flex justify-center order-1 md:order-2">
+                <div className="relative w-48 h-48 md:w-80 md:h-80 lg:w-96 lg:h-96 mb-0 md:mb-0 mt-8 md:-mt-12">
+                  <div className={`relative w-full h-full ${floatingAnimation}`}>
+                    <div className="absolute inset-0 rounded-full bg-white"></div>
+                    <Image
+                      src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop"
+                      alt="Octavio Asencio"
+                      width={400}
+                      height={400}
+                      className="relative z-10 object-cover rounded-full"
+                      priority
+                    />
+                    <div
+                      className={`absolute -top-4 -right-4 bg-blue-500 rounded-lg p-3 shadow-lg z-20 ${floatingSlowAnimation}`}
+                    >
+                      <MessageSquare className="h-6 w-6 text-white" />
+                    </div>
+                    <div
+                      className={`absolute -bottom-6 -left-6 bg-white rounded-lg p-3 shadow-lg z-20 ${floatingFastAnimation}`}
+                    >
+                      <div className="text-blue-600 font-bold">2023-2029</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -159,7 +206,7 @@ export default function Home() {
 
           {/* Curved bottom */}
           <div
-            className="absolute bottom-0 left-0 w-full h-16 bg-white"
+            className="absolute bottom-0 left-0 w-full h-16 bg-white z-0"
             style={{ clipPath: "ellipse(70% 100% at 50% 100%)" }}
           ></div>
         </section>
@@ -231,7 +278,7 @@ export default function Home() {
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-lg bg-blue-600/30 blur-md"></div>
                 <div className="relative h-[400px] rounded-xl overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=400&width=600"
+                    src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070&auto=format&fit=crop"
                     alt="Octavio Asencio hablando con ciudadanos"
                     fill
                     className="object-cover"
@@ -315,6 +362,8 @@ export default function Home() {
                   location: "Plaza Principal, Monterrey",
                   time: "17:00-19:00",
                   title: "Diálogo Ciudadano",
+                  image:
+                    "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&w=2070&auto=format&fit=crop",
                 },
                 {
                   day: "22",
@@ -322,6 +371,8 @@ export default function Home() {
                   location: "Universidad Autónoma",
                   time: "10:00-12:00",
                   title: "Foro Educativo",
+                  image:
+                    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2071&auto=format&fit=crop",
                 },
                 {
                   day: "29",
@@ -329,6 +380,8 @@ export default function Home() {
                   location: "Centro Cultural",
                   time: "18:00-20:00",
                   title: "Propuestas Culturales",
+                  image:
+                    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=crop",
                 },
                 {
                   day: "05",
@@ -336,12 +389,21 @@ export default function Home() {
                   location: "Parque Industrial",
                   time: "09:00-11:00",
                   title: "Encuentro Empresarial",
+                  image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032&auto=format&fit=crop",
                 },
               ].map((event, index) => (
                 <Card
                   key={index}
                   className={`bg-white hover:shadow-lg transition-all ${index % 2 === 0 ? floatingAnimation : floatingSlowAnimation}`}
                 >
+                  <div className="h-32 w-full relative">
+                    <Image
+                      src={event.image || "/placeholder.svg"}
+                      alt={event.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                    />
+                  </div>
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div className="text-center bg-blue-600 text-white p-2 rounded-lg w-16">
@@ -402,6 +464,8 @@ export default function Home() {
                     "Implementación de estrategias integrales para recuperar la paz en nuestras comunidades, con enfoque en prevención y fortalecimiento institucional.",
                   icon: "🛡️",
                   priority: "Prioridad 1",
+                  image:
+                    "https://images.unsplash.com/photo-1605806616949-59450e59f5a5?q=80&w=2148&auto=format&fit=crop",
                 },
                 {
                   title: "Educación",
@@ -409,6 +473,8 @@ export default function Home() {
                     "Modernización del sistema educativo para formar ciudadanos preparados para los retos del futuro, con inversión en infraestructura y capacitación docente.",
                   icon: "📚",
                   priority: "Prioridad 2",
+                  image:
+                    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop",
                 },
                 {
                   title: "Desarrollo Económico",
@@ -416,14 +482,25 @@ export default function Home() {
                     "Creación de oportunidades para todos mediante políticas que impulsen el crecimiento sostenible, la innovación y el emprendimiento local.",
                   icon: "📈",
                   priority: "Prioridad 3",
+                  image:
+                    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
                 },
               ].map((plan, index) => (
                 <Card
                   key={index}
                   className={`bg-white text-slate-900 hover:shadow-xl transition-all ${index === 0 ? floatingAnimation : index === 1 ? floatingSlowAnimation : floatingFastAnimation}`}
                 >
+                  <div className="h-40 w-full relative">
+                    <Image
+                      src={plan.image || "/placeholder.svg"}
+                      alt={plan.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <div className="absolute bottom-3 left-3 text-white text-3xl">{plan.icon}</div>
+                  </div>
                   <CardContent className="p-6 space-y-4">
-                    <div className="text-3xl">{plan.icon}</div>
                     <h3 className="text-xl font-bold">{plan.title}</h3>
                     <p className="text-slate-600 flex-1">{plan.description}</p>
                     <div className="text-sm font-bold text-blue-600">{plan.priority}</div>
@@ -471,11 +548,11 @@ export default function Home() {
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded-full bg-slate-200 overflow-hidden">
                     <Image
-                      src="/placeholder.svg?height=50&width=50"
+                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop"
                       alt="Foto de testimonio"
                       width={50}
                       height={50}
-                      className="object-cover"
+                      className="object-cover w-full h-full"
                     />
                   </div>
                   <div>
@@ -485,14 +562,19 @@ export default function Home() {
                 </div>
 
                 <div className="flex gap-2 mt-4">
-                  {[1, 2, 3, 4].map((_, i) => (
+                  {[
+                    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1573497491765-dccce02b29df?q=80&w=2070&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1560439514-4e9645039924?q=80&w=2070&auto=format&fit=crop",
+                  ].map((img, i) => (
                     <div key={i} className="h-16 w-16 rounded-lg bg-slate-200 overflow-hidden">
                       <Image
-                        src="/placeholder.svg?height=64&width=64"
+                        src={img || "/placeholder.svg"}
                         alt={`Imagen de apoyo ${i + 1}`}
                         width={64}
                         height={64}
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                       />
                     </div>
                   ))}
@@ -504,7 +586,7 @@ export default function Home() {
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-lg bg-blue-100 blur-md"></div>
                 <div className="relative rounded-xl overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=500&width=400"
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop"
                     alt="Octavio Asencio con ciudadanos"
                     width={500}
                     height={400}
